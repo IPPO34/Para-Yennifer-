@@ -1,0 +1,432 @@
+
+<html lang="vi"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para ti mi amorcito 💗</title>
+    
+    <meta name="description" content="Một lời chúc sinh nhật đặc biệt dành cho bạn! Hãy khám phá món quà ý nghĩa này!">
+
+    <!-- Favicon and Icons -->
+    <link rel="icon" href="./image/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="./image/logo.png">
+
+    <!-- Open Graph Meta Tags -->
+  
+    <meta property="og:description" content="Một món quà sinh nhật đầy yêu thương đang chờ bạn khám phá! Nhấn để xem lời chúc đặc biệt!">
+    <meta property="og:image" content="https://happybirthdaydeargift.vercel.app/image/logo.png">
+    <!-- <meta property="og:url" content="https://happybirthdaydeargift.vercel.app/?websiteId=686d4ef53c910ba1bee5ec5c"> -->
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Chúc Mừng Sinh Nhật! 🎂">
+    <meta name="twitter:description" content="Một món quà sinh nhật đầy yêu thương đang chờ bạn khám phá! Nhấn để xem lời chúc đặc biệt!">
+    <meta name="twitter:image" content="https://happybirthdaydeargift.vercel.app/image/birthday-gift.jpg">
+
+    <link rel="icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/sun0225SUN/photos/img/20210715233345.png">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/protection.css">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico&amp;display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<style>
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  #googleLoginBtn:hover {
+    background: #f8f9fa !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+  }
+  
+  #googleLoginBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+</style><style>
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .loading-content {
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        
+        .loading-spinner {
+            width: 30px;
+            height: 30px;
+            border: 4px solid rgba(51, 10, 58, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+      .loading-content h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        font-family: 'Pacifico', Arial, sans-serif;
+    }
+    
+    .loading-content p {
+        font-size: 16px;
+        opacity: 0.8;
+        font-family: 'Pacifico', Arial, sans-serif;
+    }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    body {
+      margin: 0;
+      background-color: #ffb6c1;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    #gifFinal {
+      width: 450px;
+      margin-top: 80px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    #contenido {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 999;
+      border: none;
+    }
+
+    .botones {
+      display: none;
+      margin-top: 20px;
+      font-size: 20px;
+      background-color: #fff;
+      color: #d63384;
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    </style><style>
+            img {
+                pointer-events: none;
+                -webkit-user-drag: none;
+                -moz-user-drag: none;
+                -ms-user-drag: none;
+                user-drag: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+        </style></head>
+
+<body class="body--ready">
+  <!-- Música sin autoplay -->
+   <audio id="bg-music" src="./sound/contigo siempre - chris syler.mp3" loop></audio>
+
+  <!-- Imagen de los ositos -->
+  <img src="./gif/Cat Love GIF by KIKI.gif" alt="Te Quiero" id="gifFinal" />
+    
+  <!-- Botón -->
+  <a href="#" class="botones" id="botonDemorado">Click Aqui Mi Amorcito!</a>
+
+  <!-- Iframe oculto -->
+  <iframe id="contenido"></iframe>
+
+  <script>
+    let musicaIniciada = false;
+
+    // Iniciar música al tocar la pantalla
+    function iniciarMusica() {
+      if (!musicaIniciada) {
+    musicaIniciada = true;
+    document.getElementById('bg-music').play();
+
+    // Mostrar el botón después de 24 segundos
+    setTimeout(() => {
+      document.getElementById('botonDemorado').style.display = 'inline-block';
+    }, 24000);
+
+    // Solo iniciar una vez
+    document.removeEventListener('click', iniciarMusica);
+    document.removeEventListener('touchstart', iniciarMusica);
+    }
+    }
+    document.addEventListener('click', iniciarMusica);
+    document.addEventListener('touchstart', iniciarMusica);
+
+    // Al hacer clic en el botón
+    document.getElementById('botonDemorado').addEventListener('click', function (e) {
+      e.preventDefault();
+
+      // Ocultar el gif
+      document.getElementById('gifFinal').style.display = 'none';
+
+      // Ocultar el botón (opcional)
+      this.style.display = 'none';
+
+      // Mostrar el iframe con carta.html
+      const iframe = document.getElementById('contenido');
+      iframe.src = 'carta.html';
+      iframe.style.display = 'block';
+    });
+  </script>
+
+ 
+    <button id="langSwitchBtn" style="position: fixed; top: 20px; right: 150px; z-index: 10000004; padding: 8px 16px; border-radius: 8px; background: rgb(255, 255, 255); color: rgb(34, 34, 34); border: 1px solid rgb(218, 220, 224); cursor: pointer; display: none;">
+    
+    </button>
+    <!-- Google Login Button -->
+    <div id="googleAuthContainer" style="position: fixed; top: 20px; left: 20px; z-index: 10003; font-family: Arial, sans-serif; display: none;">
+        <button id="googleLoginBtn" style="
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: none;
+            border: 1px solid #dadce0;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #3c4043;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        ">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+                <path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path>
+                <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path>
+                <path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"></path>
+                <path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"></path>
+            </svg>
+        </button>
+
+        <div id="userInfo" style="
+            display: none;
+            align-items: center;
+            padding: 8px 12px;
+            background: none;
+            border: 1px solid #dadce0;
+            border-radius: 24px;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        ">
+            <img id="userAvatar" style="
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                margin-right: 8px;
+            " src="">
+            <div style="margin-right: 12px;">
+                <div id="userName" style="font-weight: 500; color: #ffffff;"></div>
+                <div id="userEmail" style="font-size: 12px; color: #ffffff;"></div>
+            </div>
+            <button id="logoutBtn" style="padding: 4px 8px; background: none; border: 1px solid #dadce0; border-radius: 4px; font-size: 12px; cursor: pointer; color: #fbfbfc;" data-i18n="logout">Đăng xuất</button>
+        </div>
+    </div>
+
+
+    
+    <canvas id="matrix-rain" style="display: none;" width="150" height="730"></canvas>
+    <canvas style="position: absolute; width: 100%; height: 100%; z-index: 9999; display: none;" class="canvas" width="150" height="730"></canvas>
+    <div class="overlay">
+        <div class="stars-container" id="starsContainer" style="display: block;"><div class="star large" style="left: 84.3548%; top: 21.069%; animation-duration: 2.19365s; animation-delay: 1.02339s;"></div><div class="star small" style="left: 56.6903%; top: 59.32%; animation-duration: 1.29333s; animation-delay: 0.513516s;"></div><div class="star medium" style="left: 66.3054%; top: 0.464549%; animation-duration: 3.68557s; animation-delay: 1.59484s;"></div><div class="star small" style="left: 65.6203%; top: 31.8867%; animation-duration: 2.86789s; animation-delay: 1.91344s;"></div><div class="star large" style="left: 24.2596%; top: 3.38762%; animation-duration: 3.04067s; animation-delay: 1.98158s;"></div><div class="star small" style="left: 6.11267%; top: 77.6664%; animation-duration: 1.15076s; animation-delay: 1.37679s;"></div><div class="star large" style="left: 6.68929%; top: 91.474%; animation-duration: 1.07836s; animation-delay: 1.6247s;"></div><div class="star large" style="left: 3.36655%; top: 23.0515%; animation-duration: 3.30832s; animation-delay: 1.66154s;"></div><div class="star large" style="left: 59.4073%; top: 94.4915%; animation-duration: 2.15407s; animation-delay: 1.90329s;"></div><div class="star medium" style="left: 29.3373%; top: 33.4888%; animation-duration: 3.1071s; animation-delay: 1.54126s;"></div><div class="star small" style="left: 46.9504%; top: 29.095%; animation-duration: 3.20763s; animation-delay: 1.5377s;"></div><div class="star large" style="left: 96.4596%; top: 47.7301%; animation-duration: 2.87181s; animation-delay: 1.31372s;"></div><div class="star small" style="left: 57.6667%; top: 22.8061%; animation-duration: 1.78046s; animation-delay: 1.29703s;"></div><div class="star large" style="left: 65.1492%; top: 43.6899%; animation-duration: 1.93152s; animation-delay: 0.314054s;"></div><div class="star small" style="left: 47.8204%; top: 22.0231%; animation-duration: 2.51881s; animation-delay: 1.06935s;"></div><div class="star medium" style="left: 77.3751%; top: 77.5563%; animation-duration: 2.83883s; animation-delay: 1.22888s;"></div><div class="star small" style="left: 97.6155%; top: 33.3165%; animation-duration: 2.4632s; animation-delay: 1.56245s;"></div><div class="star large" style="left: 48.9613%; top: 85.8846%; animation-duration: 3.14078s; animation-delay: 1.64961s;"></div><div class="star small" style="left: 38.1419%; top: 34.4942%; animation-duration: 3.10768s; animation-delay: 0.749609s;"></div><div class="star small" style="left: 99.8616%; top: 89.2478%; animation-duration: 2.72421s; animation-delay: 0.579649s;"></div><div class="star large" style="left: 97.1056%; top: 40.9699%; animation-duration: 3.96272s; animation-delay: 0.29135s;"></div><div class="star small" style="left: 96.9114%; top: 62.8798%; animation-duration: 1.91403s; animation-delay: 0.970595s;"></div><div class="star medium" style="left: 47.8841%; top: 14.0143%; animation-duration: 2.96392s; animation-delay: 1.70695s;"></div><div class="star small" style="left: 12.516%; top: 80.3874%; animation-duration: 2.19226s; animation-delay: 0.856852s;"></div><div class="star medium" style="left: 74.8555%; top: 90.3667%; animation-duration: 2.37208s; animation-delay: 1.22097s;"></div><div class="star large" style="left: 77.8768%; top: 54.4544%; animation-duration: 3.19641s; animation-delay: 0.0776363s;"></div><div class="star medium" style="left: 5.75098%; top: 6.77437%; animation-duration: 2.08266s; animation-delay: 0.839099s;"></div><div class="star medium" style="left: 21.3132%; top: 88.2444%; animation-duration: 2.20932s; animation-delay: 0.062214s;"></div><div class="star medium" style="left: 81.4139%; top: 50.6019%; animation-duration: 2.882s; animation-delay: 0.227593s;"></div><div class="star large" style="left: 46.7296%; top: 21.0729%; animation-duration: 1.88472s; animation-delay: 1.65408s;"></div><div class="star small" style="left: 97.0685%; top: 50.6871%; animation-duration: 1.83252s; animation-delay: 0.423083s;"></div><div class="star medium" style="left: 61.6069%; top: 53.4038%; animation-duration: 1.21347s; animation-delay: 0.41396s;"></div><div class="star large" style="left: 57.6552%; top: 96.502%; animation-duration: 1.17752s; animation-delay: 1.34279s;"></div><div class="star large" style="left: 26.7422%; top: 75.5759%; animation-duration: 2.70022s; animation-delay: 0.39889s;"></div><div class="star large" style="left: 97.3104%; top: 81.3555%; animation-duration: 3.9695s; animation-delay: 1.00996s;"></div><div class="star medium" style="left: 73.7994%; top: 85.5357%; animation-duration: 1.24326s; animation-delay: 1.99499s;"></div><div class="star medium" style="left: 50.9619%; top: 46.5279%; animation-duration: 1.76744s; animation-delay: 1.79314s;"></div><div class="star small" style="left: 2.14803%; top: 51.0833%; animation-duration: 3.14635s; animation-delay: 1.35561s;"></div><div class="star small" style="left: 3.99202%; top: 28.0193%; animation-duration: 3.28642s; animation-delay: 0.719571s;"></div><div class="star small" style="left: 60.8927%; top: 8.33848%; animation-duration: 3.99184s; animation-delay: 1.67451s;"></div><div class="star small" style="left: 12.6025%; top: 20.9975%; animation-duration: 1.34852s; animation-delay: 1.87348s;"></div><div class="star large" style="left: 86.5082%; top: 2.12725%; animation-duration: 1.7234s; animation-delay: 0.368874s;"></div><div class="star large" style="left: 12.0393%; top: 68.7422%; animation-duration: 2.94615s; animation-delay: 0.145505s;"></div><div class="star large" style="left: 8.75665%; top: 98.8947%; animation-duration: 2.32292s; animation-delay: 0.650957s;"></div><div class="star small" style="left: 23.8861%; top: 79.1108%; animation-duration: 3.62546s; animation-delay: 1.29193s;"></div><div class="star medium" style="left: 29.8545%; top: 92.8772%; animation-duration: 2.76569s; animation-delay: 0.900953s;"></div><div class="star medium" style="left: 68.0847%; top: 13.5646%; animation-duration: 1.76929s; animation-delay: 0.323953s;"></div><div class="star small" style="left: 46.5408%; top: 14.6202%; animation-duration: 3.71565s; animation-delay: 0.743131s;"></div><div class="star medium" style="left: 95.0193%; top: 91.2611%; animation-duration: 2.28211s; animation-delay: 1.55473s;"></div><div class="star medium" style="left: 93.0221%; top: 80.0885%; animation-duration: 1.05933s; animation-delay: 0.481892s;"></div><div class="star medium" style="left: 68.7373%; top: 34.3831%; animation-duration: 2.69806s; animation-delay: 1.49784s;"></div><div class="star small" style="left: 6.85086%; top: 74.9564%; animation-duration: 2.00446s; animation-delay: 0.472391s;"></div><div class="star small" style="left: 87.1407%; top: 35.9631%; animation-duration: 1.46575s; animation-delay: 0.784442s;"></div><div class="star small" style="left: 32.1459%; top: 55.848%; animation-duration: 1.80717s; animation-delay: 0.652154s;"></div><div class="star small" style="left: 21.2711%; top: 72.2143%; animation-duration: 2.843s; animation-delay: 0.973218s;"></div><div class="star medium" style="left: 21.5648%; top: 28.288%; animation-duration: 3.58563s; animation-delay: 1.19141s;"></div><div class="star small" style="left: 44.707%; top: 43.3309%; animation-duration: 2.22934s; animation-delay: 1.69391s;"></div><div class="star medium" style="left: 19.8734%; top: 61.55%; animation-duration: 1.99203s; animation-delay: 1.02717s;"></div><div class="star large" style="left: 64.5112%; top: 26.8032%; animation-duration: 3.74477s; animation-delay: 1.63879s;"></div><div class="star large" style="left: 4.25551%; top: 77.0484%; animation-duration: 2.15011s; animation-delay: 0.575538s;"></div><div class="star large" style="left: 13.7388%; top: 56.7095%; animation-duration: 3.08102s; animation-delay: 0.115151s;"></div><div class="star medium" style="left: 37.272%; top: 25.0765%; animation-duration: 1.2375s; animation-delay: 0.164268s;"></div><div class="star small" style="left: 57.2194%; top: 60.7981%; animation-duration: 3.72588s; animation-delay: 0.079763s;"></div><div class="star large" style="left: 69.4034%; top: 70.9025%; animation-duration: 3.08798s; animation-delay: 1.39544s;"></div><div class="star large" style="left: 51.334%; top: 1.96551%; animation-duration: 2.02699s; animation-delay: 0.958121s;"></div><div class="star medium" style="left: 21.3963%; top: 37.1929%; animation-duration: 2.01096s; animation-delay: 0.235003s;"></div><div class="star small" style="left: 47.4333%; top: 15.059%; animation-duration: 3.10827s; animation-delay: 0.681659s;"></div><div class="star small" style="left: 36.2932%; top: 33.779%; animation-duration: 3.88058s; animation-delay: 1.28454s;"></div><div class="star medium" style="left: 41.282%; top: 15.2115%; animation-duration: 3.67017s; animation-delay: 1.45199s;"></div><div class="star medium" style="left: 93.7746%; top: 7.84849%; animation-duration: 1.24074s; animation-delay: 0.844741s;"></div><div class="star small" style="left: 59.5809%; top: 64.4734%; animation-duration: 3.43823s; animation-delay: 1.09422s;"></div><div class="star small" style="left: 73.0464%; top: 56.1597%; animation-duration: 1.28363s; animation-delay: 1.82191s;"></div><div class="star large" style="left: 32.3412%; top: 12.7249%; animation-duration: 2.8841s; animation-delay: 0.454286s;"></div><div class="star medium" style="left: 39.399%; top: 89.116%; animation-duration: 3.70731s; animation-delay: 1.37402s;"></div><div class="star medium" style="left: 96.2075%; top: 87.1183%; animation-duration: 2.15842s; animation-delay: 0.379927s;"></div><div class="star small" style="left: 83.8666%; top: 47.0696%; animation-duration: 2.39544s; animation-delay: 0.117731s;"></div><div class="star large" style="left: 83.1119%; top: 42.1472%; animation-duration: 1.67197s; animation-delay: 0.892998s;"></div><div class="star large" style="left: 61.0019%; top: 60.1163%; animation-duration: 3.01466s; animation-delay: 1.62958s;"></div><div class="star small" style="left: 49.65%; top: 45.4134%; animation-duration: 3.02735s; animation-delay: 0.304005s;"></div><div class="star small" style="left: 79.0913%; top: 74.301%; animation-duration: 1.58898s; animation-delay: 1.73194s;"></div><div class="star small" style="left: 41.5907%; top: 99.3861%; animation-duration: 2.39199s; animation-delay: 0.645295s;"></div><div class="star medium" style="left: 66.3562%; top: 22.0067%; animation-duration: 1.69672s; animation-delay: 1.82371s;"></div><div class="star small" style="left: 25.5009%; top: 69.8205%; animation-duration: 2.48119s; animation-delay: 0.139037s;"></div><div class="star medium" style="left: 13.9104%; top: 20.4163%; animation-duration: 3.87474s; animation-delay: 1.62368s;"></div><div class="star small" style="left: 7.70965%; top: 78.9419%; animation-duration: 2.31758s; animation-delay: 1.28806s;"></div><div class="star medium" style="left: 81.3975%; top: 83.9405%; animation-duration: 2.22802s; animation-delay: 0.980095s;"></div><div class="star large" style="left: 36.7805%; top: 68.3671%; animation-duration: 2.99302s; animation-delay: 0.768308s;"></div><div class="star medium" style="left: 78.2019%; top: 33.5615%; animation-duration: 1.68753s; animation-delay: 1.67989s;"></div><div class="star small" style="left: 46.3451%; top: 75.706%; animation-duration: 3.41343s; animation-delay: 1.38946s;"></div><div class="star medium" style="left: 54.0227%; top: 78.6825%; animation-duration: 1.02676s; animation-delay: 1.24293s;"></div><div class="star medium" style="left: 1.18842%; top: 43.9142%; animation-duration: 1.08507s; animation-delay: 0.48479s;"></div><div class="star medium" style="left: 40.1726%; top: 72.7816%; animation-duration: 1.68876s; animation-delay: 0.175248s;"></div><div class="star large" style="left: 74.865%; top: 9.50052%; animation-duration: 2.85982s; animation-delay: 0.497837s;"></div><div class="star small" style="left: 5.72026%; top: 35.5795%; animation-duration: 3.22621s; animation-delay: 0.0812375s;"></div><div class="star medium" style="left: 7.01686%; top: 84.2323%; animation-duration: 3.67378s; animation-delay: 1.24631s;"></div><div class="star medium" style="left: 74.0234%; top: 35.619%; animation-duration: 1.58715s; animation-delay: 0.647171s;"></div><div class="star large" style="left: 49.7469%; top: 26.8909%; animation-duration: 2.16533s; animation-delay: 0.317279s;"></div><div class="star small" style="left: 50.8382%; top: 9.56257%; animation-duration: 3.72284s; animation-delay: 0.99408s;"></div><div class="star medium" style="left: 98.4618%; top: 19.5774%; animation-duration: 3.27513s; animation-delay: 0.918898s;"></div><div class="star large" style="left: 95.4441%; top: 84.7356%; animation-duration: 1.71628s; animation-delay: 0.752195s;"></div></div>
+       
+        
+        <!-- Botón oculto al principio -->
+        
+
+       
+        <div class="content-display" id="contentDisplay">
+            <p id="contentText"></p>
+        </div>
+        <div class="firework-container" id="fireworkContainer" style="display: none; opacity: 0;"></div>
+        
+            <div class="book" id="book" style="display: block; opacity: 1; transform: scale(1) translateY(0px); transition: opacity 0.8s, transform 0.8s;"><div class="page" data-page="0"><div class="page-front"></div></div></div>
+        </div>
+
+        <button class="music-control playing" id="musicControl" title="Pause Music" fdprocessedid="s9hh1um">⏸</button>
+
+        <button class="settings-button" id="settingsButton" title="Settings" style="display: none;">
+            ⚙
+        </button>
+
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 data-i18n="settings">Cài Đặt Trang Web</h2>
+                    <span class="close">×</span>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h3 data-i18n="music">Cài Đặt Âm Thanh</h3>
+                        <div class="form-group">
+                            <label for="backgroundMusic" data-i18n="backgroundMusic">Nhạc Nền:</label>
+                            <select id="backgroundMusic">
+                                <option value="./music/happybirtday_uia.mp3">Happy Birthday</option>
+                                <option value="./music/dunglamtraitimanhdau.mp3">Đừng làm trái tim anh đau</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 data-i18n="countdown">Cài Đặt Thời Gian</h3>
+                        <div class="form-group">
+                            <label for="countdownTime" data-i18n="countdownTime">Thời Gian Đếm Ngược:</label>
+                            <select id="countdownTime">
+                                <option value="3" data-i18n="sec3">3 giây</option>
+                                <option value="5" data-i18n="sec5">5 giây</option>
+                                <option value="10" data-i18n="sec10">10 giây</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 data-i18n="matrix">Cài Đặt Hiệu Ứng Mưa Chữ</h3>
+                        <div class="form-group">
+                            <label for="matrixText" data-i18n="matrixText">chữ chính mưa chữ:</label>
+                            <input type="text" id="matrixText" value="FELIZDIA" placeholder="chữ chính mưa chữ:" data-i18n-placeholder="matrixText" readonly>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="matrixColor1" data-i18n="matrixColor1">Màu mưa chữ 1:</label>
+                                <input type="color" id="matrixColor1" value="#ffb6c1">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="matrixColor2" data-i18n="matrixColor2">Màu mưa chữ 2:</label>
+                                <input type="color" id="matrixColor2" value="#ffc0cb">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 data-i18n="sequence">Cài Đặt chữ chính</h3>
+                        <div class="form-group">
+                            <label for="sequenceText" data-i18n="sequenceText">Nội Dung chữ chính:</label>
+                            <span data-i18n="noteSequence" style="color: rgb(132, 132, 132); font-weight: normal; font-size: 12px; display: block; margin-bottom: 5px;">lưu ý: hãy ngăn cách bằng dấu | để tách từ, không nên để một dòng quá dài</span>
+                            <input type="text" id="sequenceText" value="HAPPY|BIRTHDAY|MY|CUTEE|LITTLE|SWARALI|❤" placeholder="Nội Dung chữ chính:" data-i18n-placeholder="sequenceText">
+                        </div>
+                        <div class="form-group">
+                            <label for="sequenceColor" data-i18n="sequenceColor">Màu chữ chính:</label>
+                            <input type="color" id="sequenceColor" value="#d39b9b">
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 data-i18n="gift">Cài Đặt Hình Động</h3>
+                        <div class="form-group">
+                            <label for="giftImage" data-i18n="giftImage">Hình Động (tùy chọn):</label>
+                            <select id="giftImage">
+                                <option value="" data-i18n="noGif">Không có</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="enableBook" data-i18n="enableBook">Hiển thị sách:</label>
+                        <select id="enableBook">
+                            <option value="true" data-i18n="on">Bật</option>
+                            <option value="false" data-i18n="off">Tắt</option>
+                        </select>
+                    </div>
+                    <div class="settings-section" id="bookSettingsSection">
+                        <h3 data-i18n="book">Sách kỷ niệm</h3>
+                        <div id="pageConfigs">
+                        </div>
+                        <div class="form-group">
+                            <label for="enableHeart" data-i18n="enableHeart">Hiển thị hiệu ứng trái tim:</label>
+                            <select id="enableHeart">
+                                <option value="true" data-i18n="on">Bật</option>
+                                <option value="false" data-i18n="off">Tắt</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 12px; background: #fff8e1; color: #b26a00; border-radius: 7px; padding: 10px 14px; font-size: 15px; box-shadow: 0 1px 6px rgba(0,0,0,0.04);">
+                        <div style="margin-bottom: 4px;" data-i18n="noteExpire">⏳ <b>Lưu ý:</b> Hạn sử dụng chỉ có <b>30 ngày</b>, vậy nên đừng tạo trước quá sớm nhé!</div>
+                        <div data-i18n="followNote">🥰 Hãy <a href="https://www.tiktok.com/@iamtritoan?is_from_webapp=1&amp;sender_device=pc" target="_blank" style="color:#ff0050;font-weight:bold;text-decoration:underline;">follow mình</a> để cập nhật những website mới nhất, nhanh nhất nhé!</div>
+                        <div data-i18n="notVietnamWarning">⚠️ Nếu bạn không phải người Việt Nam, bạn sẽ không thanh toán được qua website này. Hãy thiết kế sản phẩm của bạn xong, sau đó ấn nút "💳 Thanh toán &amp; Tạo Website" và đợi đến khi hiển thị mã QR thanh toán. Lúc này, hãy nhắn tin qua TikTok<a href="https://www.tiktok.com/@iamtritoan?is_from_webapp=1&amp;sender_device=pc" target="_blank" style="color:#ff0050;font-weight:bold;text-decoration:underline;"> @iamtritoan</a> để được hỗ trợ thanh toán sản phẩm này.</div>
+                    </div>
+                    <button id="applySettings" class="apply-settings-btn" data-i18n="apply">Áp Dụng Cài Đặt</button>
+                </div>
+            </div>
+        </div>
+
+        <audio id="birthdayAudio" loop="" src="./music/happy-birthday.mp3">
+            <source src="./music/happybirtday_uia.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+       
+
+        <div id="orientation-lock" style="display: none;">
+            <div class="phone-icon">
+                <img src="./image/screen.png" alt="">
+            </div>
+        </div>
+        <!-- Modal Payment-->
+        <div id="paymentModal" style="display:none; position:fixed; top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:99999;">
+            <div style="position:relative; margin: 5% auto; width: 90%; max-width: 800px; background:white; padding:20px; border-radius:10px;">
+                <button onclick="document.getElementById('paymentModal').style.display='none'" style="position:absolute;top:10px;right:10px;">✖</button>
+                <iframe id="paymentIframe" style="width:100%; height:600px; border:none;"></iframe>
+            </div>
+        </div>
+        <!-- Nút Full màn hình, chỉ hiện trên Android -->
+        <button id="fullscreenBtn" style="position: fixed; bottom: 20px; right: 20px; z-index: 9009999; padding: 10px 18px; border-radius: 8px; border: none; background: rgb(34, 34, 34); color: rgb(255, 255, 255); font-size: 16px; box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px; cursor: pointer; display: none;">
+            <img style="
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+" src="./image/full.png" alt="">
+        </button>
+
+        <script src="./lang.js"></script>
+
+        <script src="./jscp/api.obf.js"></script>
+        <script src="./jscp/auth.obf.js"></script>
+        <script src="./jscp/voucher.obf.js"></script>
+        <script src="./jscp/settings.obf.js"></script>
+        <script src="./jscp/main.obf.js"></script>
+        <script src="./jscp/ui.obf.js"></script>
+        <script src="./jscp/protection.js"></script>
+
+
+
+
+</div><span id="PING_IFRAME_FORM_DETECTION" style="display: none;"></span></body></html>
